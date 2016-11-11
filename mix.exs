@@ -9,11 +9,11 @@ defmodule Proquint.Mixfile do
      docs: [
        extras: ~W(README.md CHANGELOG.md)
      ],
-     version: "0.1.0",
-     elixir: "~> 1.3",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     deps: deps()]
+    version: "0.1.0",
+    elixir: "~> 1.3",
+    build_embedded: Mix.env == :prod,
+    start_permanent: Mix.env == :prod,
+    deps: deps()]
   end
 
   # Configuration for the OTP application
@@ -48,13 +48,15 @@ defmodule Proquint.Mixfile do
   end
 
   defp package do
-    [description: description,
-     files: ~w(lib config mix.exs README.md LICENSE),
-     maintainers: ["Khaja Minhajuddin"],
-     licenses: ["MIT"],
-     links: %{
-       "Github" => "http://github.com/minhajuddin/proquint",
-       "Docs"   => "http://hexdocs.pm/proquint",
-     }
+    [
+      description: description,
+      files: ~w(lib config mix.exs README.md LICENSE),
+      maintainers: ["Khaja Minhajuddin"],
+      licenses: ["MIT"],
+      links: %{
+        "Github" => "http://github.com/minhajuddin/proquint",
+        "Docs"   => "http://hexdocs.pm/proquint",
+      }
+    ]
   end
 end
