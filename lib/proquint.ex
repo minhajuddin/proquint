@@ -16,15 +16,14 @@ defmodule Proquint do
   #     0 1 2 3
   #     a i o u
 
-  def encode(bytes) when is_binary(bytes) and rem(byte_size(bytes), 2) == 0 do
-    do_encode(bytes, [])
+  def encode(bytes, separator \\ "-") when is_binary(bytes) and rem(byte_size(bytes), 2) == 0 do
+    do_encode(bytes, [], separator)
   end
 
   #when is_binary(string) and rem(byte_size(string), 5) == 1
   #when is_binary(string) and byte_size(string) == 5
-  def decode(string) when is_binary(string) do
-    # TODO: validate
-    String.split(string, "-") |> Enum.map(&decode_word/1) |> Enum.join
+  def decode(string, separator \\ "-") when is_binary(string) do
+    String.split(string, separator) |> Enum.map(&decode_word/1) |> Enum.join
   end
 
   defp decode_word(string) when byte_size(string) == 5 do
@@ -38,7 +37,7 @@ defmodule Proquint do
       >>
   end
 
-  defp do_encode(<< word :: size(16), rest :: binary >>, acc) do
+  defp do_encode(<< word :: size(16), rest :: binary >>, acc, separator) do
     << con1 :: size(4), vow1 :: size(2), con2 :: size(4), vow2 :: size(2), con3 :: size(4) >> = << word :: size(16) >>
     encoded_word = [
       consonant_encode(con1),
@@ -47,11 +46,11 @@ defmodule Proquint do
       vowel_encode(vow2),
       consonant_encode(con3),
     ] |> Enum.join()
-  do_encode(rest, [encoded_word|acc])
+    do_encode(rest, [encoded_word|acc], separator)
   end
 
-  defp do_encode(<<>>, acc) do
-    Enum.reverse(acc) |> Enum.join("-")
+  defp do_encode(<<>>, acc, separator) do
+    Enum.reverse(acc) |> Enum.join(separator)
   end
 
   for {number, char} <- @consonant_map do
@@ -59,7 +58,7 @@ defmodule Proquint do
       unquote(char)
     end
 
-    defp consonant_decode(unquote(char|>hd)) do
+    defp consonant_decode(unquote(char |> hd)) do
       unquote(number)
     end
   end
@@ -68,7 +67,7 @@ defmodule Proquint do
     defp vowel_encode(unquote(number)) do
       unquote(char)
     end
-    defp vowel_decode(unquote(char|>hd)) do
+    defp vowel_decode(unquote(char |> hd)) do
       unquote(number)
     end
   end
