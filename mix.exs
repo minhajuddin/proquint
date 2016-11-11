@@ -9,7 +9,7 @@ defmodule Proquint.Mixfile do
      docs: [
        extras: ~W(README.md)
      ],
-    version: "0.1.0",
+    version: "1.0.0",
     elixir: "~> 1.3",
     build_embedded: Mix.env == :prod,
     start_permanent: Mix.env == :prod,
