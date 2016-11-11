@@ -1,0 +1,2 @@
+defmodule Proquint do
+end
