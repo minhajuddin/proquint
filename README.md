@@ -1,5 +1,10 @@
 # Proquint
 
+~~~elixir
+IO.inspect Proquint.encode << 0 :: size(16)>>
+IO.inspect Proquint.encode << 63 :: size(8), 84 :: size(8), 220 :: size(8), 193 :: size(8) >>
+~~~
+
 **TODO: Add description**
 
 ## Installation
