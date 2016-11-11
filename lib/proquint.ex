@@ -39,7 +39,6 @@ defmodule Proquint do
   end
 
   defp do_encode(<< word :: size(16), rest :: binary >>, acc) do
-    IO.inspect word
     << con1 :: size(4), vow1 :: size(2), con2 :: size(4), vow2 :: size(2), con3 :: size(4) >> = << word :: size(16) >>
     encoded_word = [
       consonant_encode(con1),

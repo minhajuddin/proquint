@@ -7,7 +7,7 @@ defmodule Proquint.Mixfile do
      description: description,
      package: package,
      docs: [
-       extras: ~W(README.md CHANGELOG.md)
+       extras: ~W(README.md)
      ],
     version: "0.1.0",
     elixir: "~> 1.3",
