@@ -1,9 +1,25 @@
 defmodule Proquint do
   @moduledoc File.read!(Path.join([__DIR__, "..", "README.md"]))
 
-  @consonant_map %{0=>'b', 1=>'d', 2=>'f', 3=>'g', 4=>'h', 5=>'j', 6=>'k', 7=>'l',
-    8=>'m', 9=>'n', 10=>'p', 11=>'r', 12=>'s', 13=>'t', 14=>'v', 15=>'z'}
-  @vowel_map %{0=>'a', 1=>'i', 2=>'o', 3=>'u'}
+  @consonant_map %{
+    0 => 'b',
+    1 => 'd',
+    2 => 'f',
+    3 => 'g',
+    4 => 'h',
+    5 => 'j',
+    6 => 'k',
+    7 => 'l',
+    8 => 'm',
+    9 => 'n',
+    10 => 'p',
+    11 => 'r',
+    12 => 's',
+    13 => 't',
+    14 => 'v',
+    15 => 'z'
+  }
+  @vowel_map %{0 => 'a', 1 => 'i', 2 => 'o', 3 => 'u'}
 
   # Proquint
   # https://arxiv.org/html/0901.4016
@@ -24,36 +40,42 @@ defmodule Proquint do
     do_encode(bytes, [], separator)
   end
 
-  #when is_binary(string) and rem(byte_size(string), 5) == 1
-  #when is_binary(string) and byte_size(string) == 5
+  # when is_binary(string) and rem(byte_size(string), 5) == 1
+  # when is_binary(string) and byte_size(string) == 5
   @doc """
   Decode a proqunit to a binary
   """
   def decode(string, separator \\ "-") when is_binary(string) do
-    String.split(string, separator) |> Enum.map(&decode_word/1) |> Enum.join
+    String.split(string, separator) |> Enum.map(&decode_word/1) |> Enum.join()
   end
 
   defp decode_word(string) when byte_size(string) == 5 do
     [con1, vow1, con2, vow2, con3] = string |> to_charlist
+
     <<
-      consonant_decode(con1) :: size(4),
-      vowel_decode(vow1) :: size(2),
-      consonant_decode(con2) :: size(4),
-      vowel_decode(vow2) :: size(2),
-      consonant_decode(con3) :: size(4)
-      >>
+      consonant_decode(con1)::size(4),
+      vowel_decode(vow1)::size(2),
+      consonant_decode(con2)::size(4),
+      vowel_decode(vow2)::size(2),
+      consonant_decode(con3)::size(4)
+    >>
   end
 
-  defp do_encode(<< word :: size(16), rest :: binary >>, acc, separator) do
-    << con1 :: size(4), vow1 :: size(2), con2 :: size(4), vow2 :: size(2), con3 :: size(4) >> = << word :: size(16) >>
-    encoded_word = [
-      consonant_encode(con1),
-      vowel_encode(vow1),
-      consonant_encode(con2),
-      vowel_encode(vow2),
-      consonant_encode(con3),
-    ] |> Enum.join()
-    do_encode(rest, [encoded_word|acc], separator)
+  defp do_encode(<<word::size(16), rest::binary>>, acc, separator) do
+    <<con1::size(4), vow1::size(2), con2::size(4), vow2::size(2), con3::size(4)>> =
+      <<word::size(16)>>
+
+    encoded_word =
+      [
+        consonant_encode(con1),
+        vowel_encode(vow1),
+        consonant_encode(con2),
+        vowel_encode(vow2),
+        consonant_encode(con3)
+      ]
+      |> Enum.join()
+
+    do_encode(rest, [encoded_word | acc], separator)
   end
 
   defp do_encode(<<>>, acc, separator) do
@@ -74,9 +96,9 @@ defmodule Proquint do
     defp vowel_encode(unquote(number)) do
       unquote(char)
     end
+
     defp vowel_decode(unquote(char |> hd)) do
       unquote(number)
     end
   end
-
 end
