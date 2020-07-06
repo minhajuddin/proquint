@@ -11,7 +11,6 @@ defmodule Proquint.Mixfile do
         extras: ~W(README.md)
       ],
       version: "1.0.2",
-      elixir: "~> 1.3",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       deps: deps()
